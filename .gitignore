@@ -1,0 +1,10 @@
+project/DebugConfig
+project/Listings
+project/Objects
+project/*.uvguix
+project/*.uvoptx
+project/*.ini
+project/*.scvd
+project/*.Administrator*
+Administrator
+soureceInsigt
