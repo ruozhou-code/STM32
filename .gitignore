@@ -8,3 +8,4 @@ project/*.scvd
 project/*.Administrator*
 Administrator
 soureceInsigt
+project/.vscode

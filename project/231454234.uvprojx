@@ -384,6 +384,16 @@
               <FileType>1</FileType>
               <FilePath>..\drv\src\drv_led.c</FilePath>
             </File>
+            <File>
+              <FileName>drv_rcc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\src\drv_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>drv_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\src\drv_usart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
