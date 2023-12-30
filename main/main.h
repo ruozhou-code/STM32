@@ -11,6 +11,7 @@
 #include "drv_usart.h"
 #include "drv_key.h"
 #include "drv_exti.h"
+#include "drv_iwdg.h"
 
 #endif /* __MAIN_H */
 

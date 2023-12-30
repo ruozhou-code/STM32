@@ -404,12 +404,12 @@
               <FileType>1</FileType>
               <FilePath>..\drv\src\drv_key.c</FilePath>
             </File>
-             <File>
+            <File>
               <FileName>drv_exti.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\drv\src\drv_exti.c</FilePath>
             </File>
-             <File>
+            <File>
               <FileName>drv_delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\drv\src\drv_delay.c</FilePath>

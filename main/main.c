@@ -10,9 +10,16 @@ int main(void)
 	LED_Config(); // LED init
 	USART_INIT();
 	printf("hello world\r\n");
-	Exti_Config();
+	iwdg_init(IWDG_PRESCALER_64, 625);
+	//Exti_Config();
+	key_init();
 	while (1)
 	{
+		if (IsKeyPressing() == KEY_IS_PRESS)
+		{
+			iwdg_feed();
+		}
+		HAL_Delay(10);
 	}
 }
 
