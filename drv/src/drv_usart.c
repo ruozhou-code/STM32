@@ -118,6 +118,16 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart)
 				LED_flag = 0;
 			}
 		}
+		
+		if (UART1_Rx_flg)
+		{
+			HAL_UART_Transmit(&huart1, UART1_Rx_Buf, UART1_Rx_cnt, 0x10); // 发送接收到的数据
+			for (int i = 0; i < UART1_Rx_cnt; i++)
+				UART1_Rx_Buf[i] = 0;
+			UART1_Rx_cnt = 0;
+			UART1_Rx_flg = 0;
+		}
+		
 		HAL_UART_Receive_IT(&huart1, (uint8_t*)UART1_temp, REC_LENGTH);
 	}
 }
