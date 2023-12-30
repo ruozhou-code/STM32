@@ -33,25 +33,22 @@ int main(void)
 	LED_Config(); // LED init
 	USART_INIT();
 	printf("hello world\r\n");
+	key_init();
 	while (1)
 	{
-		if (UART1_Rx_flg)
-		{
-			HAL_UART_Transmit(&huart1, UART1_Rx_Buf, UART1_Rx_cnt, 0x10); // 发送接收到的数据
-			for (int i = 0; i < UART1_Rx_cnt; i++)
-				UART1_Rx_Buf[i] = 0;
-			UART1_Rx_cnt = 0;
-			UART1_Rx_flg = 0;
-		}
-		if (LED_flag == 1)
-		{
-			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-		}
-		else if (LED_flag == 0)
-		{
-			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-		}
+#if 0
+		if (IsKeyPressing() == KEY_IS_PRESS)
+			printf("key is press\r\n");
+		else if (IsKeyPressing() == KEY_NO_PRESS)
+			printf("kee is no press\r\n");
+		HAL_Delay(1000);
+#else
+		IsKeyPressThenRelease();
+		if (key_PressRelease_flag == 255)
+			printf("key pressing");
+
 #endif
+
 	}
 }
 
