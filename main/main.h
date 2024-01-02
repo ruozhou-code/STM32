@@ -13,6 +13,7 @@
 #include "drv_exti.h"
 #include "drv_iwdg.h"
 #include "drv_wwdg.h"
+#include "drv_tim.h"
 
 #endif /* __MAIN_H */
 
