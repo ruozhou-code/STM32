@@ -21,6 +21,8 @@ int main(void)
 	while (1)
 	{
 		//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+		printf("wo cao ni ma\r\n");
+		delay_ms(1000);
 	}
 }
 
