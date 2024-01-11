@@ -414,6 +414,21 @@
               <FileType>1</FileType>
               <FilePath>..\drv\src\drv_delay.c</FilePath>
             </File>
+            <File>
+              <FileName>drv_pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\src\drv_pwm.c</FilePath>
+            </File>
+            <File>
+              <FileName>drv_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\src\drv_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>drv_wwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\src\drv_wwdg.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

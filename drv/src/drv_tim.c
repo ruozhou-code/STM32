@@ -28,7 +28,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim)
 void TIM2_IRQHandler(void)
 {
     //HAL_TIM_IRQHandler(&htim1);
-    if (__HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_UPDATE) != RESET);
+    if (__HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_UPDATE) != RESET)
     {
         HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
         HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
