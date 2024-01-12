@@ -13,8 +13,9 @@
 #include "drv_exti.h"
 #include "drv_iwdg.h"
 #include "drv_wwdg.h"
-#include "drv_tim.h"
-#include "drv_pwm.h"
+//#include "drv_tim.h"
+//#include "drv_pwm.h"
+#include "drv_IC.h"
 
 #endif /* __MAIN_H */
 

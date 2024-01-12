@@ -142,8 +142,7 @@ int fputc(int ch, FILE* f)
 int fgetc(FILE* f)
 {
 	uint8_t ch = 0;
-	while (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_RXNE) != SET)
-		;
+	while (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_RXNE) != SET);
 	HAL_UART_Receive(&huart1, (uint8_t*)&ch, 1, 10);
 	__HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_RXNE);
 	return (int)ch;
