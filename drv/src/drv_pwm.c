@@ -49,3 +49,10 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim)
     }
 }
 
+void GPIOA_Set_Compare(uint16_t PA0, uint16_t PA1, uint16_t PA2)
+{
+    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, PA0);
+    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, PA1);
+    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, PA2);
+}
+

@@ -2,7 +2,7 @@
 
 int main(void)
 {
-	int i = 0, flag = 1;
+	int i = 500, flag = 1;
 	HAL_Init();
 
 	HAL_RCC_DeInit(); // init the system clock
@@ -15,13 +15,11 @@ int main(void)
 	//Wwdg_Config(WWDG_PRESCALER_8, 0x7F, 0x5F);
 	//iwdg_init(IWDG_PRESCALER_64, 625);
 	//Tim_Config(7200, 10000);
-	Pwm_Init(100, 7200);
+	Pwm_Init(10000 - 1, 7200 - 1);
 	while (1)
 	{
 		delay_ms(10);
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, i);
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, i);
-		__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, i);
+		GPIOA_Set_Compare(i, i, i);
 		if (i >= 100)
 			flag = 0;
 		else if (i <= 0)
