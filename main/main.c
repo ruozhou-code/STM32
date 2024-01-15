@@ -22,6 +22,7 @@ int main(void)
 	LED_Config(); // LED init
 	USART_INIT();
 	printf("xi hai qing ge\r\n");
+	printf("ri bu luo\r\n");
 	//Exti_Config();
 	//key_init();
 	//Wwdg_Config(WWDG_PRESCALER_8, 0x7F, 0x5F);
