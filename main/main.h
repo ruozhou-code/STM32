@@ -16,6 +16,7 @@
 //#include "drv_tim.h"
 //#include "drv_pwm.h"
 #include "drv_IC.h"
+#include "drv_dma.h"
 
 #endif /* __MAIN_H */
 
