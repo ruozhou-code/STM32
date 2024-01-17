@@ -17,6 +17,7 @@
 //#include "drv_pwm.h"
 #include "drv_IC.h"
 #include "drv_dma.h"
+#include "drv_adc.h"
 
 #endif /* __MAIN_H */
 

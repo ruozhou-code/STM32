@@ -9,10 +9,13 @@ uint8_t FUCK[] = "fuck\r\n";
 /* 要发送的长度 */
 uint8_t g_sendbuf[SEND_BUF_SIZE];
 
+ uint32_t temp = 0;
+ float ave = 0;
+
 int main(void)
 {
 	uint32_t i = 0;
-	uint16_t k;
+	
 	uint8_t mask = 0;
 	int flag = 1, len = 0;
 	HAL_Init();
@@ -30,55 +33,15 @@ int main(void)
 	//Tim_Config(7200, 10000);
 	//Pwm_Init(100, 7200);
 	//Tim2_Ic_Config(72 - 1, 65536 - 1);
-	Dma_Init(DMA1_Channel4);
-
-	len = strlen(TEXT_TO_SEND);
-	k = 0;
-
-	for (i = 0;i < SEND_BUF_SIZE; i++)
-	{
-		if (k >= len)
-		{
-			if (mask)
-
-			{
-				g_sendbuf[i] = 0x0a;
-				k = 0;
-				break;
-			}
-			else
-			{
-				g_sendbuf[i] = 0x0d;
-				mask++;
-			}
-		}
-		else
-		{
-			mask = 0;
-			g_sendbuf[i] = TEXT_TO_SEND[k];
-			k++;
-		}
-	}
-
-	i = 0;
+	//Dma_Init(DMA1_Channel4);
+	Adc_Config();
 
 	while (1)
 	{
+		temp = adc_get_result_average(ADC_CHANNEL_6, 10); /* 读取到的数字量 */
+		ave = 3.3*(temp/4096.0);
+		printf("%.2f\r\n", ave);
 		delay_ms(1000);
-		HAL_UART_Transmit_DMA(&huart1, FUCK, strlen(FUCK));
-		while (1)
-		{
-			/* 等待DMA1_Channl4传输完成 */
-			if (__HAL_DMA_GET_FLAG(&hdma, DMA_FLAG_TC4))
-			{
-				/* 清除标志位 */
-				__HAL_DMA_CLEAR_FLAG(&hdma, DMA_FLAG_TC4);
-				HAL_UART_DMAStop(&huart1);
-				break;
-			}
-		}
-
-
 	}
 }
 
