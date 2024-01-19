@@ -1,9 +1,6 @@
 #include "main.h"
 
-
-
-
-#define ADC_DMA_BUF_SIZE 100			/* 定义采集的的ADC_DMA的数组的大小 */
+#define ADC_DMA_BUF_SIZE 50*8			/* 定义采集的的ADC_DMA的数组的大小 */
 uint16_t g_adc_dma_buf[ADC_DMA_BUF_SIZE];         /*存放ADC读取的变量值*/
 
 extern uint8_t g_adc_dma_sta;               /* DMA´«Êä×´Ì¬±êÖ¾, 0,Î´Íê³É; 1, ÒÑÍê³É */
@@ -22,7 +19,7 @@ uint32_t sum;
 uint16_t adcx;
 int main(void)
 {
-	uint16_t i;
+	uint16_t i, j;
 
 
 	float temp;
@@ -44,7 +41,7 @@ int main(void)
 	//Pwm_Init(100, 7200);
 	//Tim2_Ic_Config(72 - 1, 65536 - 1);
 	//Dma_Init(DMA1_Channel4);
-	adc_dma_init((uint32_t)&g_adc_dma_buf); /* ³õÊ¼»¯ADC DMA²É¼¯ */
+	adc_nch_dma_init((uint32_t)&g_adc_dma_buf); /* ³õÊ¼»¯ADC DMA²É¼¯ */
 	adc_dma_enable(ADC_DMA_BUF_SIZE);   /* Æô¶¯ADC DMA²É¼¯ */
 
 	while (1)
@@ -58,14 +55,19 @@ int main(void)
 		if (g_adc_dma_sta == 1)
 		{
 			sum = 0;
-			printf("transmit is ok");
-			for (i = 0;i < ADC_DMA_BUF_SIZE;i++)
+			for (i = 0;i < 8;i++)
 			{
-				sum += g_adc_dma_buf[i];
+				sum = 0;
+				for (j = 0;j < ADC_DMA_BUF_SIZE / 8;j++)
+				{
+					sum += g_adc_dma_buf[8 * j + i];
+				}
+				adcx = sum / (ADC_DMA_BUF_SIZE / 8);
+				printf("the channle %d is %d\r\n", i, adcx);
 			}
-			adcx = sum / ADC_DMA_BUF_SIZE;
-			temp = (float)adcx * (3.3 / 4096);
-			printf("%d\r\n", adcx);
+
+			//temp = (float)adcx * (3.3 / 4096);
+
 			g_adc_dma_sta = 0;
 			adc_dma_enable(ADC_DMA_BUF_SIZE);
 		}

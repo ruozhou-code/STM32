@@ -387,6 +387,7 @@ void adc_dma_init(uint32_t mar)
 }
 
 DMA_HandleTypeDef gdma_nch_adc_handle;
+ADC_HandleTypeDef g_adc_nch_dma_handle;
 
 void adc_nch_dma_init(uint32_t mar)
 {
@@ -412,15 +413,76 @@ void adc_nch_dma_init(uint32_t mar)
     HAL_GPIO_Init(GPIOA, &gpio_init_struct);
 
     /* 初始化DMA */
-    gdma_nch_adc_handle.Instance = ADC_ADCX;
+    gdma_nch_adc_handle.Instance = ADC_ADCX_DMACx;
     gdma_nch_adc_handle.Init.Direction = DMA_PERIPH_TO_MEMORY;
     gdma_nch_adc_handle.Init.MemInc = DMA_MINC_ENABLE;
+    gdma_nch_adc_handle.Init.PeriphInc = DMA_PINC_DISABLE;
     gdma_nch_adc_handle.Init.Mode = DMA_NORMAL;
     gdma_nch_adc_handle.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
     gdma_nch_adc_handle.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    gdma_nch_adc_handle.Init.Priority = DMA_PRIORITY_MEDIUM;
     HAL_DMA_Init(&gdma_nch_adc_handle);
 
+    /*将DMA和ADC连接起来*/
+    __HAL_LINKDMA(&g_adc_nch_dma_handle, DMA_Handle, gdma_nch_adc_handle);
 
+    /*初始化ADC*/
+    g_adc_nch_dma_handle.Instance = ADC_ADCX;
+    g_adc_nch_dma_handle.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+    g_adc_nch_dma_handle.Init.ScanConvMode = ADC_SCAN_ENABLE;               /*使能扫描模式*/
+    g_adc_nch_dma_handle.Init.ContinuousConvMode = ENABLE;                  /*使能连续模式*/
+    g_adc_nch_dma_handle.Init.NbrOfConversion = 8;                          /*有8个通道*/
+    g_adc_nch_dma_handle.Init.DiscontinuousConvMode = DISABLE;              /*禁止规则组间中断模式*/
+    g_adc_nch_dma_handle.Init.NbrOfDiscConversion = 0;
+    g_adc_nch_dma_handle.Init.ExternalTrigConv = ADC_SOFTWARE_START;        /*软件触发*/
+    HAL_ADC_Init(&g_adc_nch_dma_handle);
+
+    /*校准ADC*/
+    HAL_ADCEx_Calibration_Start(&g_adc_nch_dma_handle);
+
+    /*设置通道*/
+    adc_ch_conf.Channel = ADC_CHANNEL_0;
+    adc_ch_conf.Rank = ADC_REGULAR_RANK_1;
+    adc_ch_conf.SamplingTime = ADC_SAMPLETIME_239CYCLES_5;
+    HAL_ADC_ConfigChannel(&g_adc_nch_dma_handle, &adc_ch_conf);/*PA0*/
+
+    adc_ch_conf.Channel = ADC_CHANNEL_1;
+    adc_ch_conf.Rank = ADC_REGULAR_RANK_2;
+    HAL_ADC_ConfigChannel(&g_adc_nch_dma_handle, &adc_ch_conf);/*PA1*/
+
+    adc_ch_conf.Channel = ADC_CHANNEL_2;
+    adc_ch_conf.Rank = ADC_REGULAR_RANK_3;
+    HAL_ADC_ConfigChannel(&g_adc_nch_dma_handle, &adc_ch_conf);/*PA2*/
+
+    adc_ch_conf.Channel = ADC_CHANNEL_3;
+    adc_ch_conf.Rank = ADC_REGULAR_RANK_4;
+    HAL_ADC_ConfigChannel(&g_adc_nch_dma_handle, &adc_ch_conf);/*PA3*/
+
+    adc_ch_conf.Channel = ADC_CHANNEL_4;
+    adc_ch_conf.Rank = ADC_REGULAR_RANK_5;
+    HAL_ADC_ConfigChannel(&g_adc_nch_dma_handle, &adc_ch_conf);/*PA4*/
+
+    adc_ch_conf.Channel = ADC_CHANNEL_5;
+    adc_ch_conf.Rank = ADC_REGULAR_RANK_6;
+    HAL_ADC_ConfigChannel(&g_adc_nch_dma_handle, &adc_ch_conf);/*PA5*/
+
+    adc_ch_conf.Channel = ADC_CHANNEL_6;
+    adc_ch_conf.Rank = ADC_REGULAR_RANK_7;
+    HAL_ADC_ConfigChannel(&g_adc_nch_dma_handle, &adc_ch_conf);/*PA6*/
+
+    adc_ch_conf.Channel = ADC_CHANNEL_7;
+    adc_ch_conf.Rank = ADC_REGULAR_RANK_8;
+    HAL_ADC_ConfigChannel(&g_adc_nch_dma_handle, &adc_ch_conf);/*PA7*/
+
+    /*配置DMA数据量请求中断优先级*/
+    HAL_NVIC_SetPriority(ADC_ADCX_DMACx_IRQn, 3, 3);
+    HAL_NVIC_EnableIRQ(ADC_ADCX_DMACx_IRQn);
+
+    /*启动DMA并开启中断*/
+    HAL_DMA_Start_IT(&gdma_nch_adc_handle, (uint32_t)&ADC1->DR, mar, 0);
+
+    /*启动DMA的ADC传输*/
+    HAL_ADC_Start_DMA(&g_adc_nch_dma_handle, &mar, 0);
 }
 
 void adc_dma_enable(uint16_t cndtr)

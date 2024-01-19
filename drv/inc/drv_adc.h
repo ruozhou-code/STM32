@@ -43,6 +43,8 @@ void adc_channel_set(ADC_HandleTypeDef* adc_handle, uint32_t ch, uint32_t rank, 
 uint32_t adc_get_result(uint32_t ch);
 uint32_t adc_get_result_average(uint32_t ch, uint8_t times);
 
+void adc_nch_dma_init(uint32_t mar);
+
 void adc_dma_init(uint32_t mar);
 void adc_dma_enable(uint16_t cndtr);
 
