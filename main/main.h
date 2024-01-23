@@ -15,6 +15,7 @@
 #include "drv_wwdg.h"
 #include "drv_tim.h"
 #include "drv_pwm.h"
+#include "drv_tim1.h"
 
 #endif /* __MAIN_H */
 

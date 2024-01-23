@@ -14,20 +14,22 @@ int main(void)
 	//key_init();
 	//Wwdg_Config(WWDG_PRESCALER_8, 0x7F, 0x5F);
 	//iwdg_init(IWDG_PRESCALER_64, 625);
-	//Tim_Config(7200, 10000);
-	Pwm_Init(10000 - 1, 7200 - 1);
+
+	Tim1_Config(7200 - 1, 5000);
+
+	/*两种方法可以用来改变比较值*/
+#if 1
+	Tim1_setcompare(500, 500);
+#else
+	TIM1->CCR1 = 2500;
+#endif
+	tim1_npwm_set(5);
+
 	while (1)
 	{
-		delay_ms(10);
-		GPIOA_Set_Compare(i, i, i);
-		if (i >= 100)
-			flag = 0;
-		else if (i <= 0)
-			flag = 1;
-		if (flag == 1)
-			i = i + 1;
-		else if (flag == 0)
-			i = i - 1;
+		// HAL_Delay(10000);
+		// printf("nihao");
+
 	}
 }
 
